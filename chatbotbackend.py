@@ -50,11 +50,11 @@ def get_chat_response(conversation_history: list) -> str:
         """
     }
     
-  messages = [system_message] + conversation_history
+    messages = [system_message] + conversation_history
 
-  response = client.chat.complete(
+    response = client.chat.complete(
       model="mistral-small-latest",
       messages=messages
   )
 
-  return response.choices[0].message.content
+    return response.choices[0].message.content
