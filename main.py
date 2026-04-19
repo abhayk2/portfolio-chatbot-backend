@@ -20,14 +20,9 @@ class ChatRequest(BaseModel): #makes FastAPI automatically validate the incoming
 
 @app.post("/chat")
 async def chat(request : ChatRequest):
-    return StreamingResponse(
-        get_chat_response(request.messages),
-        media_type="text/event-stream",
-        headers={
-                    "X-Accel-Buffering": "no",
-                    "Cache-Control": "no-cache",
-                }
-    )
+        response = get_chat_response(request.messages)
+    return {"response": response}
+
 
 
 

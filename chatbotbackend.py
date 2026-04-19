@@ -50,15 +50,11 @@ def get_chat_response(conversation_history: list) -> str:
         """
     }
     
-    messages = [system_message] + conversation_history
-    
-    response = client.chat.stream(
-        model="mistral-small-latest",
-        messages=messages
-    )
-    
-    for chunk in response:
-        delta = chunk.data.choices[0].delta.content
-        if delta:
-            yield delta
-    
+  messages = [system_message] + conversation_history
+
+  response = client.chat.complete(
+      model="mistral-small-latest",
+      messages=messages
+  )
+
+  return response.choices[0].message.content
