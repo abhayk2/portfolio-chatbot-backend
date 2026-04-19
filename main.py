@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from chatbotbackend import get_chat_response
+from fastapi.responses import StreamingResponse
 
 app = FastAPI()
 
@@ -19,8 +20,10 @@ class ChatRequest(BaseModel): #makes FastAPI automatically validate the incoming
 
 @app.post("/chat")
 async def chat(request : ChatRequest):
-    response = get_chat_response(request.messages)
-    return {"response":response}
+    return StreamingResponse(
+        get_chat_response(request.messages),
+        media_type="text/event-stream"
+    )
 
 
 
